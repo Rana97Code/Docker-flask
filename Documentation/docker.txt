@@ -1,0 +1,98 @@
+Download Docker Desktop version from this website
+https://www.docker.com/
+
+After install then start 
+
+Create a App File as container 
+then this file create an other file name : docker-compose.yami
+
+
+If we run an existing project in docker then we have to create a File name Dockerfile file inside both fontend and backend section
+Then we have to create another file in both section name: .dockerignore
+
+
+In MERN Project Inside both Fontend & Backend
+https://www.youtube.com/watch?v=PhmIsxkskhY
+
+
+In This this project folder
+create folder: docker-compose.yaml
+
+version: "3.9"
+services: 
+  mongodb:
+    image:"mongo"
+    volumes:
+      -data:/data/db
+  backend:
+    build: ./express_backend
+    ports:
+      -"80:80"
+    volumes:
+      -logs:app/logs
+      -./express_backend:/app
+      -/app/node_modules
+    depends_on:
+      -mongodb
+
+  frontend:
+      build: ./react_fontend
+      ports:
+        -"3000:3000"
+      volumes:
+      -./react_fontend/src:/app/src
+      stdin_open: true
+      tty: true
+      depends_on:
+      - express_backend
+    volumes:
+        data:
+        logs:
+
+
+
+
+
+create folder: Dockerfile
+in this folder:
+	FROM node
+
+	WORKDIR /index
+
+	COPY package.json .
+
+	RUN npm install
+
+	COPY . .
+	
+	EXPOSE 80
+
+	CMD ["npm", "start"] 
+
+create folder: .dockerignore
+in this folder:
+	node_modules
+	Dockerfile
+	.git;
+
+After ALL done run the command >> docker-compose up
+
+*******************Using Docker Manually from CMD by this command***********
+
+for create image :  go to the project folder then then make this project as a image of docker for this 
+run the command>> docker build -t ranabiswas(docker-hub-username)/app-name .
+check all images>> docker images
+run the image>> docker run -d -p 5000:5000 docker-image-name-here
+check all running image>> docker ps
+stop running image/container >> docker stop container-name
+
+for docker-compose.yaml up >> docker compose up
+
+ 
+
+
+********Docker for flask *********
+https://www.youtube.com/watch?v=q9vLXtJZtaw
+
+////Docker image create in docker destktop run this command
+>>docker build -t rest-apis .
