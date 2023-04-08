@@ -1,27 +1,38 @@
-version: "4.17"
-
-services: 
-  flask-app-container:
-    image: "flask:2.2.3"
-    # container-name: flask-backend
-    build: .
+version: "1.0.0"
+services:
+  app:
+    build: ./app
+    links:
+      - db
+    ports:
+      - "5000:5000"
     depends_on:
-      - mysqldb
-    ports: 
-      - 80:3000
+      - db
 
-
-  mysqldb:
-    image: "mysql"
-    restart: always
-    # container_name: mysql-flask-app-container
+  db:
+    image: mysql:8.0.21
     ports: 
       - "3306:3306"
     environment: 
-        MYSQL_USER: 'root'
-        MYSQL_PASSWORD: ''
-        MYSQL_ROOT_PASSWORD: '' 
-        MYSQL_DATABASE: 'flask_app'
+      MYSQL_ROOT_PASSWORD: root
+      # MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      # MYSQL_DATABASE: 'flask_app'
     volumes:
-      - db-data:/var/lib/mysql
+      # - ./db:/docker-entrypoint-initdb.d/:ro
+      - mydatabase:/var/lib/mysql
+      #there mydatabase is a volume that is created in local pc using terminal
 
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8077:80
+    environment:
+      #- PMA_ARBITRARY=1
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  mydatabase:
+    driver: local

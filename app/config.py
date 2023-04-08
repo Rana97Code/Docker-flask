@@ -12,7 +12,8 @@ ma = Marshmallow()
 mysql = MySQL(app)
 
 app.config['SECRET_KEY'] = 'seCREtKeY'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost:3306/flask_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@db:3306/flask_app'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost:3306/flask_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db.init_app(app)

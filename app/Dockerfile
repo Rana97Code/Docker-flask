@@ -1,8 +1,6 @@
 
-FROM python:3.11.1
+FROM python:3.11.3
 
-# RUN apt-get update
-# RUN apt-get install python3-dev default-libmysqlclient-dev gcc  -y 
 
 WORKDIR /app
 COPY . /app
@@ -10,7 +8,7 @@ COPY . /app
 RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
-EXPOSE 80
+EXPOSE 5000
 
 ENTRYPOINT ["python"]
 CMD ["app.py"]
